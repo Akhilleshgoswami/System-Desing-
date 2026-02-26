@@ -1,4 +1,4 @@
-```md
+
 # Networking Protocols – How Data Travels Between Two Devices
 
 ## Why Do We Need Networking Protocols?
@@ -249,4 +249,4 @@ Application Layer
 → Defines how applications communicate (HTTP, WebSocket, etc.)
 
 Together, these layers make modern apps like WhatsApp, Telegram, and Instagram work smoothly.
-```
+
