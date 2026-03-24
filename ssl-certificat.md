@@ -80,9 +80,7 @@ Else → warning shown
 
 ---
 
-### 4. Key Exchange (Important Step)
-
-Now encryption setup happens.
+### 4. Key Exchange
 
 - Browser generates a **session key**  
 - Encrypts it using server’s **public key**  
@@ -90,15 +88,15 @@ Now encryption setup happens.
 
 Server decrypts it using its **private key**  
 
-👉 Now both have the same session key  
+👉 Now both share the same session key  
 
 ---
 
 ### 5. Secure Communication Starts
 
-All further communication uses:
+All communication now uses:
 
-👉 **Symmetric Encryption (Session Key)**
+👉 **Symmetric Encryption**
 
 ---
 
@@ -106,68 +104,122 @@ All further communication uses:
 
 ## 1. Asymmetric Encryption
 
-Used during **initial handshake**.
+Used during handshake.
 
-### How it works:
+- Uses Public Key + Private Key  
+- Secure but slow  
 
-- Uses **Public Key + Private Key**
-- Public key is shared
-- Private key is secret
-
-### Purpose:
-
-- Securely exchange the session key  
-
-### Example:
-
-Browser encrypts session key using public key →  
-Server decrypts using private key  
+Purpose:
+👉 Securely exchange the session key  
 
 ---
 
 ## 2. Symmetric Encryption
 
-Used after handshake for actual data transfer.
+Used after handshake.
 
-### How it works:
+- Same key for encryption and decryption  
+- Fast and efficient  
 
-- Uses **same key for encryption and decryption**  
-- Called **Session Key**  
-
-### Purpose:
-
-- Fast and efficient encryption of data  
+Purpose:
+👉 Encrypt actual data  
 
 ---
 
 ## Why Both Are Used?
 
-- Asymmetric encryption → Secure but slow  
-- Symmetric encryption → Fast but needs secure key exchange  
+- Asymmetric → Secure key exchange  
+- Symmetric → Fast communication  
 
-👉 SSL combines both:
-
-1. Asymmetric → Secure key exchange  
-2. Symmetric → Fast data transfer  
+👉 SSL combines both for security + performance  
 
 ---
 
-## Real-World Flow
+# Reverse Proxy in SSL
 
-1. Browser connects to server  
-2. Server sends certificate + public key  
-3. Browser verifies certificate  
-4. Browser creates session key  
-5. Session key is encrypted using public key  
-6. Server decrypts using private key  
-7. Both now share same key  
-8. All data is encrypted using symmetric encryption  
+A **Reverse Proxy** is a server that sits between client and backend servers.
+
+Flow:
+
+Client → Reverse Proxy → Backend Server  
 
 ---
 
-## Certificate Authority (CA)
+## Role of Reverse Proxy
 
-Trusted organization that issues SSL certificates.
+- Handles SSL termination  
+- Decrypts HTTPS requests  
+- Forwards them to backend services  
+- Improves performance  
+
+---
+
+# Hacker as Reverse Proxy (MITM Attack) 🚨
+
+A hacker can behave like a reverse proxy and intercept communication.
+
+---
+
+## Scenario
+
+User connects to public WiFi.
+
+Instead of direct communication:
+
+Client → Hacker (Fake Proxy) → Real Server  
+
+---
+
+## What Hacker Does
+
+- Intercepts request  
+- Forwards to server  
+- Receives response  
+- Sends response back to user  
+
+👉 User thinks everything is normal  
+
+---
+
+## Without SSL ❌
+
+- Data is in plain text  
+- Hacker can read everything  
+
+Example:
+
+- Username  
+- Password  
+- Credit card details  
+
+👉 Full data leak  
+
+---
+
+## With SSL (HTTPS) ✅
+
+- Data is encrypted  
+- Hacker can intercept but cannot read  
+
+👉 Data is secure  
+
+---
+
+## Advanced Attacks
+
+- Fake SSL certificates  
+- SSL stripping (forcing HTTP)  
+
+Modern browsers:
+
+- Show warnings  
+- Block unsafe connections  
+
+---
+
+# Certificate Authority (CA)
+
+Trusted organizations that issue SSL certificates.
 
 Examples:
 
@@ -178,7 +230,7 @@ They verify server identity.
 
 ---
 
-## Advantages of SSL
+# Advantages of SSL
 
 ### 1. Data Encryption
 
@@ -188,7 +240,7 @@ They verify server identity.
 
 ### 2. Authentication
 
-- Verifies server identity  
+- Ensures correct server  
 
 ---
 
@@ -198,31 +250,37 @@ They verify server identity.
 
 ---
 
-### 4. Trust
+### 4. Protection Against Attacks
 
-- Shows secure lock icon in browser  
-
----
-
-## Summary
-
-SSL uses both:
-
-- **Asymmetric Encryption** → for secure key exchange  
-- **Symmetric Encryption** → for fast data transfer  
-
-This combination ensures secure and efficient communication.
+- Prevents MITM attacks  
 
 ---
 
-## Interview Explanation (2–3 Minutes)
+### 5. Trust
 
-SSL certificates are used to secure communication between client and server using HTTPS.
+- Browser shows secure lock icon  
 
-The process starts with the server sending its certificate and public key. The browser verifies the certificate and then generates a session key. This session key is encrypted using the server’s public key and sent to the server.
+---
 
-The server decrypts it using its private key, and now both share the same key.
+# Summary
 
-After this, all communication uses symmetric encryption, which is faster. Asymmetric encryption is only used during the handshake.
+SSL secures communication using:
 
-So SSL uses a combination of asymmetric and symmetric encryption to ensure both security and performance.
+- Asymmetric Encryption → Key exchange  
+- Symmetric Encryption → Data transfer  
+
+Even if a hacker tries to act as a reverse proxy, SSL ensures that the data remains encrypted and secure.
+
+---
+
+# Interview Explanation (2–3 Minutes)
+
+SSL certificates secure communication between client and server using HTTPS.
+
+During the handshake, the server shares its certificate and public key. The client verifies it and generates a session key, which is encrypted and sent to the server. After that, communication uses symmetric encryption.
+
+A reverse proxy can handle SSL termination to improve performance.
+
+In a Man-in-the-Middle attack, a hacker may act like a reverse proxy and intercept traffic. However, SSL protects against this by encrypting the data, making it unreadable even if intercepted.
+
+So SSL ensures secure, authenticated, and reliable communication.
